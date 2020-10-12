@@ -26,6 +26,7 @@ namespace Payments_bot
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            
         }
 
        
