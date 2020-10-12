@@ -9,13 +9,13 @@ namespace Payments_bot.Data
     public class CreditCard
     {
         [Key]
-        public int Key { get; set; }
+        public long CardNumber { get; set; }
 
-        public int MerchantKey { get; set; }
+        public long MerchantId { get; set; }
 
         public string Name { get; set; }
 
-        public long CardNumber { get; set; }
+       
         public Merchant merchant { get; set; }
     }
 }

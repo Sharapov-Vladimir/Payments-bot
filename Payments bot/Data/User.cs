@@ -8,9 +8,9 @@ namespace Payments_bot.Data
 {
     public class User
     {
-        [Key]
-        public int Key { get; set; }
-        public long UserId { get; set; }
+       
+        public long Id { get; set; }
+        
         public IEnumerable<Merchant> Merchants { get; set; }
     }
 }

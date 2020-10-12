@@ -8,18 +8,17 @@ namespace Payments_bot.Data
 {
     public class Merchant
     {
-        [Key]
-        public int Key { get; set; }
+       
         public long Id { get; set; }
         public string Password { get; set; }
-        public int UserKey { get; set; }
+        public long UserId { get; set; }
         public User user { get; set; }
 
-        public Merchant(long Id, string Password, int UserKey)
+        public Merchant(long Id, string Password, int UserId)
         {
             this.Id = Id;
             this.Password = Password;
-            this.UserKey = UserKey;
+            this.UserId = UserId;
         }
         public IEnumerable<CreditCard> CreditCards { get; set; }
 
