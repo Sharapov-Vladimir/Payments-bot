@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Models\TelegramApi\" />
-    <Folder Include="Models\PrivatApi\" />
   </ItemGroup>
 
   <ItemGroup>
