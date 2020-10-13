@@ -21,14 +21,7 @@ namespace Payments_bot.Models.TelegramApi
         {
             
 
-            try
-            {
-                
-            }
-            catch (Exception e)
-            {
-               
-            }
+           
 
         }
 
