@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Payments_bot.Data;
+using Payments_bot.Models.TelegramApi.Callbacks;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,49 +11,26 @@ namespace Payments_bot.Models.TelegramApi
 {
     public static class CallbackHandler
     {
-        public static void Handle(TelegramBotClient client , CallbackQuery callback ) 
+        private static List<ICallback> callbacks = new List<ICallback>
         {
 
-            string CallbackName = callback.Data.Split('=')[0];
-            string CallbackData = callback.Data.Split('=')[1];
 
+        };
 
-            switch (CallbackName)
+        public static void Handle(TelegramBotClient client, CallbackQuery callback)
+        {
+            
+
+            try
             {
-
-                case "merch":
-                    Merch(CallbackData);
-                    break;
-                case "card":
-                    Card(CallbackData);
-                    break;
-                case "getbalance":
-                    GetBalance(CallbackData);
-                    break;
-                case "gethistory":
-                    GetHistory(CallbackData);
-                    break;
-
-                default:
-                    return;
+                
+            }
+            catch (Exception e)
+            {
+               
             }
 
         }
-        private static void Merch(string CallbackData)
-        {
 
-        }
-        private static void Card(string CallbackData)
-        {
-
-        }
-        private static void GetBalance(string CallbackData)
-        {
-
-        }
-        private static void GetHistory(string CallbackData)
-        {
-
-        }
     }
 }
