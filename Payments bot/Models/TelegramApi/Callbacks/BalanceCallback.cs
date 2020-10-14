@@ -14,7 +14,7 @@ namespace Payments_bot.Models.TelegramApi.Callbacks
 
         public void Execute(TelegramBotClient client, CallbackQuery callback)
         {
-           
+            
         }
     }
 }

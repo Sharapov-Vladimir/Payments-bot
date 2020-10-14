@@ -12,6 +12,6 @@ namespace Payments_bot.Models.PrivatApi.Responses
         public string Amount { get; set; }
         public string CardAmount { get; set; }
         public string Rest { get; set; }
-        public string Terminal { get; set; }
+        
     }
 }
