@@ -26,7 +26,7 @@ namespace Payments_bot
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            
+            services.AddControllersWithViews();
         }
 
        
@@ -40,6 +40,7 @@ namespace Payments_bot
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 

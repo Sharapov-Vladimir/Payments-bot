@@ -7,14 +7,14 @@ using System.Xml.Linq;
 
 namespace Payments_bot.Models.PrivatApi.Responses
 {
-    public class HistoryResponse:IResponse
+    public class HistoryResponse
     {
         
         public double Credit { get; set; }
         public double Debet { get; set; }
         public List<Statement> HistoryStatements { get; set; }
 
-        public IResponse Build(string response)
+        public HistoryResponse Build(string response)
         {
             XDocument doc = XDocument.Parse(response);
             IEnumerable<XElement> statements = doc.Elements("statement");

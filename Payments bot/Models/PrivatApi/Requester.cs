@@ -11,7 +11,7 @@ namespace Payments_bot.Models.PrivatApi
     public static class Requester
     {
         
-      public static async Task<IResponse> GetBalanceResult(Merchant merchant)
+      public static async Task<BalanceResponse> GetBalanceResult(Merchant merchant)
         {
             string Url = @"https://api.privatbank.ua/p24api/balance";
             string request = RequestBuilder.GetBalance(merchant);
@@ -32,7 +32,7 @@ namespace Payments_bot.Models.PrivatApi
             }
 
         }
-        public static async Task<IResponse> GetHistoryResult(Merchant merchant)
+        public static async Task<HistoryResponse> GetHistoryResult(Merchant merchant)
         {
             string Url = @"https://api.privatbank.ua/p24api/rest_fiz";
             string request = RequestBuilder.GetBalance(merchant);

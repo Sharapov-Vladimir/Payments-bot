@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace Payments_bot.Models.PrivatApi.Responses
 {
-    public class BalanceResponse:IResponse
+    public class BalanceResponse
     {
        
         public double AvailableBalance { get; set; }
@@ -18,7 +18,7 @@ namespace Payments_bot.Models.PrivatApi.Responses
 
 
 
-        public  IResponse Build(string response)
+        public BalanceResponse Build(string response)
         {
             XDocument doc = XDocument.Parse(response);
             this.AvailableBalance = 
