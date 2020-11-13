@@ -4,9 +4,23 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Payments_bot</RootNamespace>
     <LangVersion>8.0</LangVersion>
+    <UserSecretsId>74254cb0-c1ea-4216-a11e-8eb3c2e19ca9</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20201105003157_Initial.cs" />
+    <Compile Remove="Migrations\20201105003157_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20201105005521_Initial.cs" />
+    <Compile Remove="Migrations\20201105005521_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20201107012100_Initial.cs" />
+    <Compile Remove="Migrations\20201107012100_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20201107020028_Initial.cs" />
+    <Compile Remove="Migrations\20201107020028_Initial.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Jquery" Version="3.5.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0-preview1.19506.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.8">
@@ -14,12 +28,14 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0-preview1.19506.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0-preview1-19509-03" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
     <PackageReference Include="Telegram.Bot" Version="15.7.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <Folder Include="Migrations\" />
+    <Folder Include="wwwroot\css\" />
+    <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
 

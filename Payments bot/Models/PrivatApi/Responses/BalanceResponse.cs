@@ -1,35 +1,37 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 using System.Xml.Linq;
 
 namespace Payments_bot.Models.PrivatApi.Responses
 {
     public class BalanceResponse
     {
-       
-        public double AvailableBalance { get; set; }
+
+        public double AvailableBalance { get; set; } 
         public double Balance { get; set; }
         public double Limit { get; set; }
-        public DateTime UpdateTime { get; set; }
+        public string UpdateTime { get; set; } 
+        public string ErrorMes { get; set; }
 
 
 
         public BalanceResponse Build(string response)
         {
-            XDocument doc = XDocument.Parse(response);
-            this.AvailableBalance = 
-                double.Parse(doc.Root.Element("av_balance").Value, CultureInfo.InvariantCulture);
-            this.Balance = 
-                double.Parse(doc.Root.Element("balance").Value , CultureInfo.InvariantCulture);
-            this.Limit = 
-                double.Parse(doc.Root.Element("fin_limit").Value , CultureInfo.InvariantCulture);
-            this.UpdateTime = 
-                DateTime.ParseExact(doc.Root.Element("bal_date").Value, "dd.MM.yy HH:mm", CultureInfo.InvariantCulture);
-            return this;
+                var doc = XDocument.Parse(response);
+                var data = doc?.Root?.Element("data")?.Element("info")?.Element("cardbalance");
+                var errorElement = doc?.Root?.Element("data")?.Element("error");
+                AvailableBalance =
+                    double.Parse(data?.Element("av_balance")?.Value ?? "0", CultureInfo.InvariantCulture);
+                Balance =
+                    double.Parse(data?.Element("balance")?.Value ?? "0", CultureInfo.InvariantCulture);
+                Limit =
+                    double.Parse(data?.Element("fin_limit")?.Value ?? "0", CultureInfo.InvariantCulture);
+                UpdateTime =
+                     data?.Element("bal_date")?.Value ?? " " ;
+            ErrorMes = 
+                    (errorElement?.Attribute("message")?.Value)??" ";
+                
+            return this; 
+
         }
     }
 }

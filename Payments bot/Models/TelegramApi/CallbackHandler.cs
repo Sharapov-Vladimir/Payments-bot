@@ -1,9 +1,7 @@
 ﻿using Payments_bot.Data;
 using Payments_bot.Models.TelegramApi.Callbacks;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
@@ -11,18 +9,24 @@ namespace Payments_bot.Models.TelegramApi
 {
     public static class CallbackHandler
     {
-        private static List<ICallback> callbacks = new List<ICallback>
+        public static ResponseTextMessage Handle(BotContext context, CallbackQuery data)
         {
+            List<ICallback> callbacks = new List<ICallback>
+            {
+             new BalanceCallback(context),
+             new HistoryCallback(context),
+             new MerchCallback(context),
+             new DeleteCallback(context)
 
-
-        };
-
-        public static void Handle(TelegramBotClient client, CallbackQuery callback)
-        {
+            };
             
+            var callback = callbacks.First(c =>data.Data.ToLowerInvariant().StartsWith(c.Name));
+            
+            var response = callback.Execute(data);
+            
+            return response;
 
-           
-
+            
         }
 
     }

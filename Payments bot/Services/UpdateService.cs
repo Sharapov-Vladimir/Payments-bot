@@ -1,7 +1,7 @@
-﻿using Payments_bot.Models.TelegramApi;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Payments_bot.Data;
+using Payments_bot.Models.TelegramApi;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -11,22 +11,39 @@ namespace Payments_bot.Services
 {
     public class UpdateService : IUpdateService
     {
-       //клиент для доступа к TelegramApi с уникальным токеном для бота
-        private TelegramBotClient client = new TelegramBotClient("1359314134:AAGIj8oCReXJTh8hHIkOHthfEBcpcu9k6o8");
-        public void Update(Update update)
+        
+        
+        private BotContext context;
+        
+        
+        public UpdateService(BotContext context)
         {
-            switch (update.Type)
-            {
-                case UpdateType.Message:
-                    CommandHandler.Handle(client, update.Message);
-                    break;
-                case UpdateType.CallbackQuery:
-                    CallbackHandler.Handle(client, update.CallbackQuery);
-                    break;
-                default:
-                    break;
+            this.context = context;
+            
+        }
 
+       
+        private ResponseTextMessage Build(Update update)
+        {
+            
+
+            if(UpdateType.Message.CompareTo(update.Type)==0) 
+            {
+               return CommandHandler.Handle(context, update.Message);
+                
             }
+             
+            if(update.Type == UpdateType.CallbackQuery)
+            {
+               return CallbackHandler.Handle(context, update.CallbackQuery);    
+            }
+
+            return null;
+        }
+
+        public async Task<ResponseTextMessage> Update(Update update)
+        {
+            return Build(update);
         }
     }
 }

@@ -1,34 +1,38 @@
-﻿using Payments_bot.Models.TelegramApi.Commands;
+﻿using Payments_bot.Data;
+using Payments_bot.Models.TelegramApi.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Telegram.Bot;
 using Telegram.Bot.Types;
 
 namespace Payments_bot.Models.TelegramApi
 {
     public static class CommandHandler
     {
-
-             private static List<ICommand> commands = new List<ICommand>
+        public static ResponseTextMessage Handle(BotContext context, Message message)
+        {
+            ResponseTextMessage response = null;
+            
+            List<ITelegramCommand> commands = new List<ITelegramCommand>
              {
-
+                 new MyMerchantsCommand(context),
+                 new DeleteMerchantCommand(context),
+                 new NewMerchantCommand()
 
              };
-
-        public static void Handle(TelegramBotClient client, Message message)
-        {
-
-
+            
             try
             {
                 var command = commands.First(c => c.Name == message.Text.ToLowerInvariant());
-                command.Execute(client, message);
+                
+                response = command.Execute(message);
+
+                return response;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                client.SendTextMessageAsync(chatId: message.Chat, text: e.Message);
+                //игнорирует сообщения несоответствующие формату команд /command
+                return response;
             }
 
         }

@@ -9,9 +9,11 @@ namespace Payments_bot.Models.PrivatApi.Responses
     {
         public string Description { get; set; }
         public DateTime TransactionDate { get; set; }
-        public string Amount { get; set; }
-        public string CardAmount { get; set; }
-        public string Rest { get; set; }
-        
+        public double Amount { get; set; }
+        public double CardAmount { get; set; }
+        public double Rest { get; set; }
+
+       
+
     }
 }

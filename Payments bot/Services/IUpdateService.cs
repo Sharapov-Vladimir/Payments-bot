@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Payments_bot.Models.TelegramApi;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 
@@ -8,6 +6,8 @@ namespace Payments_bot.Services
 {
     public interface IUpdateService
     {
-        public void Update(Update update);
+        
+       
+        public Task<ResponseTextMessage> Update(Update update);
     }
 }

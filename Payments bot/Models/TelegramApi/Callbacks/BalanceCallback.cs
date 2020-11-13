@@ -1,35 +1,38 @@
 ﻿using Payments_bot.Data;
 using Payments_bot.Models.PrivatApi;
-using Payments_bot.Models.PrivatApi.Responses;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Telegram.Bot;
 using Telegram.Bot.Types;
 
 namespace Payments_bot.Models.TelegramApi.Callbacks
 {
     public class BalanceCallback : ICallback
     {
+        private BotContext context;
+        
+        public BalanceCallback(BotContext context)
+        {
+            this.context = context;
+        }
+
+       
         public string Name { get; set; } = "balance";
 
-        public async void Execute(TelegramBotClient client, CallbackQuery callback)
+        
+
+       public ResponseTextMessage Execute(CallbackQuery callback)
         {
-            long CardNumber = long.Parse(callback.Data.Split("=")[1]);
-            long merchID = long.Parse(callback.Data.Split("=")[2]);
-            Merchant merchant;
 
-            using(var context = new BotContext())
-            {
-                merchant = context.Merchants.Find(merchID);
-            }
-            
-            merchant.SelectedCard = CardNumber;
+            long merchID = long.Parse(callback.Data.Split("=")[1]);
+            Merchant merchant = context.Merchants.FirstOrDefault(m => m.Id == merchID);
+            string response = ResponseBuilder.GetBalance(merchant);
 
-            BalanceResponse response = await Requester.GetBalanceResult(merchant);
-            
-            
+            return new ResponseTextMessage
+            { 
+                ChatId = callback.Message.Chat.Id,
+                text = response,
+                keyboardMarkup = null
+
+            };
         }
     }
 }

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace Payments_bot.Models.PrivatApi.Responses
 {
@@ -12,37 +11,51 @@ namespace Payments_bot.Models.PrivatApi.Responses
         
         public double Credit { get; set; }
         public double Debet { get; set; }
+        public string ErrorMes { get; set; }
         public List<Statement> HistoryStatements { get; set; }
+        
 
         public HistoryResponse Build(string response)
         {
-            XDocument doc = XDocument.Parse(response);
-            IEnumerable<XElement> statements = doc.Elements("statement");
-            HistoryStatements = new List<Statement>();
+            var doc = XDocument.Parse(response);
+            var errorElement = doc?.Root?.Element("data")?.Element("error");
+            var info = doc?.Root?.Element("data")?.Element("info");
+            var statements =info?.Element("statements")?.XPathSelectElements("statement");
 
-            this.Credit = 
-                double.Parse(doc.Root.Element("statements").Attribute("credit").Value, CultureInfo.InvariantCulture);
-            this.Debet =
-                double.Parse(doc.Root.Element("statements").Attribute("debet").Value, CultureInfo.InvariantCulture);
 
-            foreach (var statement in statements)
+                HistoryStatements = new List<Statement>();
+            ErrorMes =
+               (errorElement?.Attribute("message")?.Value) ?? " ";
+
+                Credit =
+                    double.Parse(info?.Element("statements")?.Attribute("credit")?.Value ?? "0",CultureInfo.InvariantCulture);
+                Debet =
+                    double.Parse(info?.Element("statements")?.Attribute("debet")?.Value ?? "0", CultureInfo.InvariantCulture);
+
+            if (statements != null)
             {
-                HistoryStatements.Add(new Statement
+                foreach (var statement in statements)
                 {
-                    Amount = statement.Attribute("amount").Value,
-                    CardAmount = statement.Attribute("cardamount").Value,
-                    Description = statement.Attribute("description").Value,
-                    Rest = statement.Attribute("rest").Value,
+                    HistoryStatements.Add(new Statement
+                    {
+                        Amount =
+                        double.Parse(statement?.Attribute("amount")?.Value.Split(" ")[0].Replace('.', ','), new CultureInfo("uk-UA")),
+                        CardAmount =
+                        double.Parse(statement?.Attribute("cardamount")?.Value.Split(" ")[0].Replace('.', ',')),
+                        Description =
+                        statement?.Attribute("description")?.Value,
+                        Rest =
+                        double.Parse(statement?.Attribute("rest")?.Value.Split(" ")[0].Replace('.', ',')),
 
-                    TransactionDate =
-                            DateTime.ParseExact(statement.Attribute("trandate").Value, "yyyy-MM-dd",
-                                CultureInfo.InvariantCulture)
-                });
+                        TransactionDate =
+                                DateTime.ParseExact(statement?.Attribute("trandate")?.Value, "yyyy-MM-dd",
+                                    CultureInfo.InvariantCulture)
+                    });
+                }
             }
-
-
-
+            
             return this;
+            
         }
     }
 }

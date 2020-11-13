@@ -2,7 +2,6 @@
 using Payments_bot.Models.PrivatApi.Responses;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -22,7 +21,14 @@ namespace Payments_bot.Models.PrivatApi
                 var result = await client.PostAsync(Url, content);
                
                 if (!result.IsSuccessStatusCode)
-                    return null;
+                    return new BalanceResponse
+                    {
+                        AvailableBalance = 0,
+                        Balance = 0,
+                        Limit = 0,
+                        UpdateTime = "",
+                        ErrorMes = "Requester Error"
+                    }; 
                 
                 using (result)
                 {
@@ -32,19 +38,25 @@ namespace Payments_bot.Models.PrivatApi
             }
 
         }
-        public static async Task<HistoryResponse> GetHistoryResult(Merchant merchant)
+        public static async Task<HistoryResponse> GetHistoryResult(Merchant merchant , DateTime startdate , DateTime enddate)
         {
             string Url = @"https://api.privatbank.ua/p24api/rest_fiz";
-            string request = RequestBuilder.GetBalance(merchant);
+            string request = RequestBuilder.GetHistory(merchant,startdate,enddate);
             HttpContent content = new StringContent(request);
             HistoryResponse historyResponse = new HistoryResponse();
             using (var client = new HttpClient())
             {
                 var result = await client.PostAsync(Url, content);
-                
+
                 if (!result.IsSuccessStatusCode)
-                    return null;
-                
+                    return new HistoryResponse
+                    {
+                        Credit = 0,
+                        Debet=0,
+                        HistoryStatements=new List<Statement>(),
+                        ErrorMes = "Requester Error"
+                    }; 
+
                 using (result)
                 {
                     string response = await result.Content.ReadAsStringAsync();
@@ -53,7 +65,7 @@ namespace Payments_bot.Models.PrivatApi
             }
 
         }
-
+     
 
 
 

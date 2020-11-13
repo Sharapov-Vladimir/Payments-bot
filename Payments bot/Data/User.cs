@@ -8,9 +8,11 @@ namespace Payments_bot.Data
 {
     public class User
     {
-       
-        public long Id { get; set; }
+        [Key]
+        public int Key { get; set; }
         
-        public IEnumerable<Merchant> Merchants { get; set; }
+        public long Id { get; set; }
+
+        public List<Merchant> Merchants { get; set; } = new List<Merchant>();
     }
 }

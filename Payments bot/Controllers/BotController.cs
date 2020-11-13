@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Payments_bot.Models.TelegramApi;
 using Payments_bot.Services;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 
 namespace Payments_bot.Controllers
@@ -12,17 +10,29 @@ namespace Payments_bot.Controllers
     public class BotController : Controller
     {
 
-        private IUpdateService service;
-        public BotController(IUpdateService service)
+        private IUpdateService updateservice;
+        private TelegramBotClient client;
+        private ResponseTextMessage response;
+        public BotController(IUpdateService updateservice,IBotService botService)
         {
-            this.service = service;
+            this.updateservice = updateservice;
+            client = botService.GetClient();
         }
         [HttpPost]
-        public void Post([FromBody] Update update)
+        public  async void Post([FromBody] Update update)
         {
-            service.Update(update);
-
-
+           response = await updateservice.Update(update);
+            
+            if (response != null)
+            {
+                await client.SendTextMessageAsync(
+                    chatId: response.ChatId,
+                    text: response.text,
+                    replyMarkup: response.keyboardMarkup
+                    );
+            }
+            
+           
         }
 
 

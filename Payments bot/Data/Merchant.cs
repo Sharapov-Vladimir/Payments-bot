@@ -9,22 +9,29 @@ namespace Payments_bot.Data
 {
     public class Merchant
     {
-       
+        [Key]
+        public int Key { get; set; }
         public long Id { get; set; }
         public string Password { get; set; }
-        public long UserId { get; set; }
-        public User user { get; set; }
+        public long CreditCard { get; set; }
+        public int UserKey { get; set; }
+        public User user { get; set; } = new User();
        
-        [NotMapped]
-        public long SelectedCard { get; set; }
-
-        public Merchant(long Id, string Password, int UserId)
+        
+       
+        
+        public Merchant()
         {
-            this.Id = Id;
-            this.Password = Password;
-            this.UserId = UserId;
+
         }
-        public IEnumerable<CreditCard> CreditCards { get; set; }
+        public Merchant(  long? Id, string Password, long UserId , long? CreditCard)
+        {
+            this.Id = (long)Id;
+            this.Password = Password;
+            user.Id = UserId;
+            this.CreditCard = (long)CreditCard;
+        }
+        
 
     }
 }

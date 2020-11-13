@@ -1,29 +1,34 @@
 ﻿using Payments_bot.Data;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Payments_bot.Models.TelegramApi.Commands
 {
-    public class MyMerchantsCommand : ICommand
+    public class MyMerchantsCommand : ITelegramCommand
     {
-        public string Name { get; set; } = "/my merchants";
-        
+        private BotContext context;
 
-        public void Execute(TelegramBotClient client, Message message)
+        public MyMerchantsCommand(BotContext context)
+        {
+            this.context = context;
+        }
+        public string Name { get; set; } = "/merchants";
+
+
+
+
+        public ResponseTextMessage Execute(Message message)
         {
             long user = message.From.Id;
             IEnumerable<Merchant> merchants;
             List<InlineKeyboardButton> buttons = new List<InlineKeyboardButton>();
             InlineKeyboardMarkup keyboard;
-            using (var context = new BotContext())
-            {
-                merchants = context.Users.Find(user).Merchants.ToList();
-            }
+
+
+            merchants = context.Merchants.Where(u => u.user.Id == user).ToList();
+
 
             if (merchants.Count() > 0)
             {
@@ -33,22 +38,23 @@ namespace Payments_bot.Models.TelegramApi.Commands
                 }
                 keyboard = new InlineKeyboardMarkup(buttons);
 
-                client.SendTextMessageAsync(
-                    chatId:message.Chat,
-                    text:"список ваших мерчантов",
-                    replyMarkup:keyboard
 
-                    );
+                return new ResponseTextMessage
+                {
+                   
+                    ChatId = message.Chat.Id,
+                    text = "список ваших мерчантов",
+                    keyboardMarkup = keyboard
+
+                };
             }
             else
             {
-                client.SendTextMessageAsync(
-                      chatId: message.Chat,
-                      text: "список ваших мерчантов пуст"
-                      
-
-                      );
-
+                return new ResponseTextMessage
+                {
+                    ChatId = message.Chat.Id,
+                    text = "список ваших мерчантов пуст"
+                };
             }
         }
     }

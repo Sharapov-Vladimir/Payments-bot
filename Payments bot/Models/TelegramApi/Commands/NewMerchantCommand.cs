@@ -1,28 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Telegram.Bot;
-using Telegram.Bot.Types;
+﻿using Telegram.Bot.Types;
 
 namespace Payments_bot.Models.TelegramApi.Commands
 {
-    public class NewMerchantCommand:ICommand
+    public class NewMerchantCommand:ITelegramCommand
     {
-        public string Name { get; set; } = "/new merchant";
-       
+        public string Name { get; set; } = "/add";
+        
 
 
-        public void Execute(TelegramBotClient client, Message message)
+        public ResponseTextMessage Execute(Message message)
         {
+            
+            
+            return new ResponseTextMessage
+            {
+                //ссылка для создания нового мерчанта
+                ChatId = message.Chat.Id,
+                text = "https://paymentsbot.azurewebsites.net/Home/NewMerchant/" + message.From.Id,
+                keyboardMarkup = null
 
-            client.SendTextMessageAsync(
-                chatId: message.Chat,
-                text: "текст"
-                // ссылка на форму регистрации
-
-                );
-           
+            };
         }
     }
 }
