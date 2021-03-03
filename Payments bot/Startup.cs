@@ -26,16 +26,16 @@ namespace Payments_bot
             services.AddDbContext<BotContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("BotContext")));
             services.AddTransient<IUpdateService, UpdateService>();
-            services.AddTransient<IBotService, BotService>();
+            
 
         }
 
        
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,IBotService bot, BotContext context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,BotContext context)
         {
 
             context.Database.Migrate(); 
-            bot.setWebHook();
+            AppConfig.setWebHook();
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseStaticFiles();

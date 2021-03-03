@@ -26,7 +26,7 @@ namespace Payments_bot
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    
+                    webBuilder.UseIISIntegration();
                 });
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Payments_bot.Models.TelegramApi;
 using Payments_bot.Services;
+using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
@@ -11,15 +13,15 @@ namespace Payments_bot.Controllers
     {
 
         private IUpdateService updateservice;
-        private TelegramBotClient client;
         private ResponseTextMessage response;
-        public BotController(IUpdateService updateservice,IBotService botService)
+        private TelegramBotClient client = AppConfig.GetClient();
+        public BotController(IUpdateService updateservice)
         {
-            this.updateservice = updateservice;
-            client = botService.GetClient();
+            this.updateservice = updateservice; 
         }
+
         [HttpPost]
-        public  async void Post([FromBody] Update update)
+        public  async Task<IActionResult> Post([FromBody] Update update)
         {
            response = await updateservice.Update(update);
             
@@ -30,9 +32,10 @@ namespace Payments_bot.Controllers
                     text: response.text,
                     replyMarkup: response.keyboardMarkup
                     );
+               
             }
-            
-           
+
+            return Ok();
         }
 
 

@@ -36,20 +36,23 @@ namespace Payments_bot.Controllers
         [HttpPost]
         public IActionResult NewMerchant(NewMerchantForm form)
         {
-
-
-            Merchant unverified = new Merchant(form.Id, form.Password, form.User, form.CreditCard);
-            bool exists = context.Merchants.FirstOrDefault(m => m.Id == unverified.Id) != null;
-            
-            if (exists == false)
+            if (ModelState.IsValid)
             {
-                context.Merchants.Add(unverified);
-                context.SaveChanges();
-                return View("success");
-            }
-               
+                Merchant unverified = new Merchant(form.Id, form.Password, form.User, form.CreditCard);
+                bool exists = context.Merchants.FirstOrDefault(m => m.Id == unverified.Id) != null;
 
-            return View("Error");
+                if (exists == false)
+                {
+                    context.Merchants.Add(unverified);
+                    context.SaveChanges();
+                    return RedirectToAction("Success");
+                }
+                return RedirectToAction("Error");
+            }
+
+            return View();
+
+          
                    
         }
        
