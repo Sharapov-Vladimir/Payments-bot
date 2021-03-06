@@ -17,7 +17,7 @@ namespace Payments_bot.Models.other
         public string Password { get; set; }
        
         [Required]
-        [CreditCard]
+        [Range(1000000000000000,9999999999999999, ErrorMessage="Ivalid card number")]
         public long? CreditCard { get; set; }
 
 

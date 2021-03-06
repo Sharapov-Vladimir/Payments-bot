@@ -9,8 +9,8 @@ namespace Payments_bot.Services
 {
     public static class AppConfig
     {
-        public static readonly string AppUrl = "";
-        private static readonly string BotToken = "";
+        public static readonly string AppUrl = "https://00e29ed505ad.ngrok.io";
+        private static readonly string BotToken = "1359314134:AAG14ANbOji--DOOcZ6IbBNnKB4nidN8E9U";
         
         public static TelegramBotClient GetClient()
         {
