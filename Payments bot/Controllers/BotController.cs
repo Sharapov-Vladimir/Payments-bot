@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Payments_bot.Models.TelegramApi;
+using Payments_bot.Models;
 using Payments_bot.Services;
 using System.Threading.Tasks;
 using Telegram.Bot;
