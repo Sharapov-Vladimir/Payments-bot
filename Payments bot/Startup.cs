@@ -36,6 +36,9 @@ namespace Payments_bot
 
             context.Database.Migrate(); 
             AppConfig.setWebHook();
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.GetCultureInfo("uk-Ua");
+            CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.GetCultureInfo("uk-Ua");
+            
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseStaticFiles();
