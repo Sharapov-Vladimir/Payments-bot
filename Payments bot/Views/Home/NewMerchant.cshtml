@@ -1,0 +1,35 @@
+﻿@model NewMerchantForm
+@{
+    ViewData["Title"] = "NewMerchant";
+}
+<input type="hidden" asp-for="User" value="@ViewBag.User" />
+<form asp-action="NewMerchant" method="post" class="form">
+    <div class="form_icon">
+        <img src="~/img/icon.png" alt="иконка">
+    </div>
+    <div class="form_group">
+        <input asp-for="Id" type="number" class="form_input" placeholder=" ">
+        <label asp-for="Id" class="form_label">Id</label>
+
+    </div>
+    <div class="form_group">
+        <input asp-for="Password" type="password" class="form_input" placeholder=" ">
+        <label asp-for="Password" class="form_label">Password</label>
+
+    </div>
+    <div class="form_group">
+        <input asp-for="CreditCard" type="number" class="form_input" placeholder=" ">
+        <label asp-for="CreditCard" class="form_label">Credit Card</label>
+
+    </div>
+    <div class="form_button">
+        <input class="button" type="submit" value="Create" />
+    </div>
+    <span asp-validation-for="Id" class="validation"></span><br />
+    <span asp-validation-for="Password" class="validation"></span><br />
+    <span asp-validation-for="CreditCard" class="validation"></span><br />
+    
+
+</form>
+
+    
