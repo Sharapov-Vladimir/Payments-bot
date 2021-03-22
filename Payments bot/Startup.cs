@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Payments_bot.Data;
 using Payments_bot.Services;
+using System.Globalization;
 
 namespace Payments_bot
 {
